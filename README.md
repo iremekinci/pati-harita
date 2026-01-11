@@ -6,27 +6,32 @@ PatiHarita; kentsel ekosistemdeki sokak hayvanlarının refahını artırmak ama
 
 ## 📌 Seçilen Maddeler ve Uygulama Özeti (Assignment Items)
 
-Hocanın mailine istinaden, projede uygulanan yönerge maddeleri aşağıda liste halinde sunulmuştur:
+Hocanın talebi üzerine, projede uygulanan yönerge maddeleri aşağıda liste halinde sunulmuştur:
 
-* **Managing Different User Types (%20):** Gönüllü, Belediye Yetkilisi ve Yönetici olmak üzere 3 farklı rol tanımlanmıştır. Rol bazlı UI rendering uygulanmıştır.
-* **NoSQL Database (%25):** MongoDB Atlas (Cloud) kullanılarak heterojen veri yönetimi sağlanmıştır. Relational (SQL) yapılara göre esneklik avantajı dokümante edilmiştir.
-* **Performance Monitoring & Testing (%25):** Artillery Cloud ile yük ve stres testi yapılmış, p95 gecikme süreleri ve başarı oranları analiz edilmiştir.
-* **Indexing Mechanisms (%25):** MongoDB `2dsphere` (GeoSpatial Index) kullanılarak konum bazlı sorgu optimizasyonu yapılmıştır.
-* **CRUD Operations (%15):** Harita üzerindeki nokta katmanı için Ekleme (Create), Listeleme (Read), Güncelleme (Update) ve Silme (Delete) yetenekleri sisteme dahil edilmiştir.
-* **Authentication (%15):** Kayıt ol / Giriş yap (Sign up/Login) sistemi ve `localStorage` tabanlı asenkron oturum yönetimi kurulmuştur.
-* **API Development (%25):** FastAPI ile Spatial (konumlar) ve Non-spatial (kullanıcılar) resource ayrımı yapılmış, Swagger UI üzerinden dokümante edilmiştir.
+* **Managing Different User Types (%20):** Gönüllü, Belediye Yetkilisi ve Yönetici rolleri tanımlanmış, role-based UI ve yetki matrisi uygulanmıştır.
+* **NoSQL Database (%25):** MongoDB Atlas kullanılarak heterojen veri yönetimi sağlanmış, SQL ile karşılaştırmalı analizi yapılmıştır.
+* **Performance Monitoring & Testing (%25):** Artillery Cloud ile yük/stres testi yapılmış ve grafiklerle raporlanmıştır.
+* **Indexing Mechanisms (%25):** `2dsphere` indeksi üzerine bir performans deneyi tasarlanmış ve bulguları dökümante edilmiştir.
+* **CRUD Operations (%15):** Coğrafi nokta katmanı için Ekleme, Listeleme, Güncelleme ve Silme yetenekleri sisteme dahil edilmiştir.
+* **Authentication (%15):** Kayıt ol / Giriş yap (Sign up/Login) sistemi kurulmuştur.
+* **API Development (%25):** FastAPI ile Spatial ve Non-spatial resource ayrımı yapılmış, Swagger UI üzerinden dokümante edilmiştir.
 
 ---
 
-## 🏛️ 1. Mimari ve Teknik Detaylar
+## 🏛️ 1. Mimari ve Teknik Derinlik
 
-### A. NoSQL Tabanlı Veri Yönetimi
-Sistem, yerel depolamadan **MongoDB Atlas (Cloud NoSQL)** mimarisine taşınmıştır. Sokak hayvanlarına ait heterojen veri yapıları (kayıp ilanı vs. barınak verisi), esnek doküman modelleri (BSON) ile bulut ortamında saklanmaktadır. 
-* **Demonstration:** SQL tablolarındaki katı şema yapısının aksine, NoSQL sayesinde her veri türü kendine has dinamik alanlara (örneğin; sadece kayıp ilanında bulunan "tasma rengi" alanı) sahip olabilmektedir.
+### A. Neden NoSQL? (Neden MongoDB?)
+PatiHarita projesinde veriler heterojen (çok biçimli) bir yapıdadır. 
+* **Problem (SQL Yaklaşımı):** "Kayıp İlanı" (tasma rengi, ödül miktarı) ile "Resmi Barınak" (kapasite, veteriner sayısı) verilerini SQL'de yönetmek, ya yüzlerce "Null" değer içeren verimsiz tablolara ya da karmaşık ve yavaş `JOIN` maliyetlerine yol açar.
+* **Çözüm (NoSQL Avantajı):** MongoDB'nin döküman tabanlı (BSON) yapısı sayesinde her veri türü, kendi özel alanlarını (Örn: sadece ilanlara has "durum" alanı) performans kaybı yaşamadan esnek bir şekilde saklayabilmektedir.
 
-### B. Indexing & Performance Optimization
-Sistemde coğrafi verilerin hızlı sorgulanabilmesi için **2dsphere Index** kullanılmıştır. 
-* **Deney Sonucu:** İndeksleme öncesinde O(N) olan arama karmaşıklığı, GeoSpatial indeksleme ile logaritmik seviyeye indirilmiş; "En Yakın Veterineri Bul" gibi konumsal sorgularda %70 performans artışı gözlemlenmiştir.
+### B. İndeksleme Deneyi ve Bulgular (Indexing Experiment)
+Sistemin ölçeklenebilirliğini ölçmek için `2dsphere` indeksi üzerinde bir performans deneyi yapılmıştır.
+* **İndeks Öncesi:** `$near` sorgusu için uygun indeks bulunamadığında veritabanı "unable to find index" hatası vermiş ve işlemi durdurmuştur.
+* **İndeks Sonrası (IXSCAN):** `2dsphere` indeksi tanımlandıktan sonra aynı sorgu **1ms** altında (0ms) tamamlanmıştır.
+
+![MongoDB Index Result](assets/mongodb2.png)
+*Kanıt: MongoDB Compass üzerinde yapılan Explain Plan sonucu (IXSCAN kullanımı).*
 
 ---
 
@@ -43,42 +48,34 @@ Sistemde coğrafi verilerin hızlı sorgulanabilmesi için **2dsphere Index** ku
 
 ## 📊 3. Performans ve Stres Testi (Artillery Cloud)
 
-Sistem, **Artillery Cloud** üzerinden profesyonel stres testine tabi tutulmuştur.
+![Performance Summary](assets/performance_summary.png)
+*Artillery Cloud Yük Analizi: 5.000+ kullanıcıda yüksek başarı oranı.*
 
-### A. Yük Özeti (Load Summary)
-- **Vusers Created:** 5.000+ sanal kullanıcı.
-- **Success Rate:** %98.68 (Yüksek trafik dayanımı).
-- **Peak Traffic:** 10.7k requests/s.
-
-![Performance Summary](performance_summary.png)
-*Artillery Cloud Yük Analizi*
-
-### B. Web Vitals & Latency
-- **TTFB:** 19ms - 93ms.
-- **p95 Latency:** Stabilizasyon süresi milisaniyeler seviyesindedir.
-
-![Performance Details](performance_details.png)
+![Performance Details](assets/performance_details.png)
+*Yanıt Süreleri: TTFB ve LCP metrikleri.*
 
 ---
 
-## 📸 4. Uygulama Arayüzü
-![Arayüz](map-view.png)
+## 📸 4. Uygulama Arayüzü ve Sistem Kanıtları
+
+### 🗺️ Genel Harita Görünümü
+![Arayüz](assets/map-view.png)
+*Sistemin ana harita arayüzü ve konumsal veri dağılımı.*
 
 ### 👤 Role-Based UI (RBAC)
 | Yönetici Arayüzü (Admin) | Gönüllü Arayüzü (Volunteer) |
 | :---: | :---: |
-| ![Admin](./user(1).png) | ![Volunteer](./user(2).png) |
+| ![Admin](./assets/user(1).png) | ![Volunteer](./assets/user(2).png) |
 
-### 🛠️ API & Database
-![Swagger](./swagger.png)
-*Swagger UI Dokümantasyonu*
+### 🛠️ API & Database (Teknik Kanıtlar)
+![Swagger](./assets/swagger.png)
+*FastAPI Swagger UI Dokümantasyonu (Spatial & Non-spatial ayrımı).*
 
-![MongoDB](./mongodb.png)
-*MongoDB Atlas Bulut Veri Yapısı*
+![MongoDB Atlas](assets/mongodb.png)
+*MongoDB Atlas Cloud Veri Yapısı ve Koleksiyon Görünümü.*
 
 ---
 
 ## 🚀 Çalıştırma Talimatı
 1. **Backend:** `cd backend` -> `python -m uvicorn main:app --reload`
-
 2. **Frontend:** `index.html` dosyasını tarayıcıda çalıştırın.
