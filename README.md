@@ -42,6 +42,7 @@ Sistemin ölçeklenebilirliğini ölçmek için `2dsphere` indeksi üzerinde bir
 | Kayıp İlanı Ekleme | ✅ | ✅ | ✅ |
 | Anlık Besleme Bildirimi | ✅ | ✅ | ✅ |
 | **Resmi Barınak/Klinik Ekleme** | ❌ | ✅ | ✅ |
+| **Sabit Beslenme Noktası Ekleme** | ❌ | ❌ | ✅ |
 | **Veri Silme & Güncelleme (CRUD)** | ❌ | ❌ | ✅ |
 
 ---
@@ -80,4 +81,5 @@ Sistemin ölçeklenebilirliğini ölçmek için `2dsphere` indeksi üzerinde bir
 1. **Backend:** `cd backend` -> `python -m uvicorn main:app --reload`
 
 2. **Frontend:** `index.html` dosyasını tarayıcıda çalıştırın.
+
 
