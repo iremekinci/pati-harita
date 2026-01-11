@@ -48,10 +48,10 @@ Sistemin ölçeklenebilirliğini ölçmek için `2dsphere` indeksi üzerinde bir
 
 ## 📊 3. Performans ve Stres Testi (Artillery Cloud)
 
-![Performance Summary](assets/performance_summary.png)
+![Performance Summary](performance_summary.png)
 *Artillery Cloud Yük Analizi: 5.000+ kullanıcıda yüksek başarı oranı.*
 
-![Performance Details](assets/performance_details.png)
+![Performance Details](performance_details.png)
 *Yanıt Süreleri: TTFB ve LCP metrikleri.*
 
 ---
@@ -59,19 +59,19 @@ Sistemin ölçeklenebilirliğini ölçmek için `2dsphere` indeksi üzerinde bir
 ## 📸 4. Uygulama Arayüzü ve Sistem Kanıtları
 
 ### 🗺️ Genel Harita Görünümü
-![Arayüz](assets/map-view.png)
+![Arayüz](/map-view.png)
 *Sistemin ana harita arayüzü ve konumsal veri dağılımı.*
 
 ### 👤 Role-Based UI (RBAC)
 | Yönetici Arayüzü (Admin) | Gönüllü Arayüzü (Volunteer) |
 | :---: | :---: |
-| ![Admin](./assets/user(1).png) | ![Volunteer](./assets/user(2).png) |
+| ![Admin](./user(1).png) | ![Volunteer](./user(2).png) |
 
 ### 🛠️ API & Database (Teknik Kanıtlar)
-![Swagger](./assets/swagger.png)
+![Swagger](./swagger.png)
 *FastAPI Swagger UI Dokümantasyonu (Spatial & Non-spatial ayrımı).*
 
-![MongoDB Atlas](assets/mongodb.png)
+![MongoDB Atlas](mongodb.png)
 *MongoDB Atlas Cloud Veri Yapısı ve Koleksiyon Görünümü.*
 
 ---
@@ -80,3 +80,4 @@ Sistemin ölçeklenebilirliğini ölçmek için `2dsphere` indeksi üzerinde bir
 1. **Backend:** `cd backend` -> `python -m uvicorn main:app --reload`
 
 2. **Frontend:** `index.html` dosyasını tarayıcıda çalıştırın.
+
