@@ -50,34 +50,35 @@ Sistem, **Artillery Cloud** üzerinden profesyonel stres testine tabi tutulmuşt
 - **Success Rate:** %98.68 (Yüksek trafik dayanımı).
 - **Peak Traffic:** 10.7k requests/s.
 
-![Performance Summary](assets/performance_summary.png)
+![Performance Summary](performance_summary.png)
 *Artillery Cloud Yük Analizi*
 
 ### B. Web Vitals & Latency
 - **TTFB:** 19ms - 93ms.
 - **p95 Latency:** Stabilizasyon süresi milisaniyeler seviyesindedir.
 
-![Performance Details](assets/performance_details.png)
+![Performance Details](performance_details.png)
 
 ---
 
 ## 📸 4. Uygulama Arayüzü
-![Arayüz](assets/map-view.png)
+![Arayüz](map-view.png)
 
 ### 👤 Role-Based UI (RBAC)
 | Yönetici Arayüzü (Admin) | Gönüllü Arayüzü (Volunteer) |
 | :---: | :---: |
-| ![Admin](./assets/user(1).png) | ![Volunteer](./assets/user(2).png) |
+| ![Admin](./user(1).png) | ![Volunteer](./user(2).png) |
 
 ### 🛠️ API & Database
-![Swagger](./assets/swagger.png)
+![Swagger](./swagger.png)
 *Swagger UI Dokümantasyonu*
 
-![MongoDB](./assets/mongodb.png)
+![MongoDB](./mongodb.png)
 *MongoDB Atlas Bulut Veri Yapısı*
 
 ---
 
 ## 🚀 Çalıştırma Talimatı
 1. **Backend:** `cd backend` -> `python -m uvicorn main:app --reload`
+
 2. **Frontend:** `index.html` dosyasını tarayıcıda çalıştırın.
