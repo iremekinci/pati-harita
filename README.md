@@ -30,7 +30,7 @@ Sistemin ölçeklenebilirliğini ölçmek için `2dsphere` indeksi üzerinde bir
 * **İndeks Öncesi:** `$near` sorgusu için uygun indeks bulunamadığında veritabanı "unable to find index" hatası vermiş ve işlemi durdurmuştur.
 * **İndeks Sonrası (IXSCAN):** `2dsphere` indeksi tanımlandıktan sonra aynı sorgu **1ms** altında (0ms) tamamlanmıştır.
 
-![MongoDB Index Result](assets/mongodb2.png)
+![MongoDB Index Result](mongodb2.png)
 *Kanıt: MongoDB Compass üzerinde yapılan Explain Plan sonucu (IXSCAN kullanımı).*
 
 ---
@@ -78,4 +78,5 @@ Sistemin ölçeklenebilirliğini ölçmek için `2dsphere` indeksi üzerinde bir
 
 ## 🚀 Çalıştırma Talimatı
 1. **Backend:** `cd backend` -> `python -m uvicorn main:app --reload`
+
 2. **Frontend:** `index.html` dosyasını tarayıcıda çalıştırın.
